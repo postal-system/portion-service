@@ -1,0 +1,25 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    groupId: "report"
+    consumer:
+      auto-offset-reset: earliest
+      portion-topic: "letters"
+    producer:
+      portion-topic: "portion"
+  datasource:
+    url: jdbc:postgresql://localhost:5434/portions
+    username: postgres
+    password: mcpmwC8gGwVKr4Q9xCKZEzEgS
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: true
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    enabled: true
+server:
+  port: 8088
