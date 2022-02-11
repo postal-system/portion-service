@@ -8,7 +8,7 @@ spring:
     producer:
       portion-topic: "portion"
   datasource:
-    url: jdbc:postgresql://130.193.56.118:5434/pejt_portions
+    url: jdbc:postgresql://130.193.56.118:5432/pejt_portions
     username: postgres
     password: mcpmwC8gGwVKr4Q9xCKZEzEgS
   mvc:

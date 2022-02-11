@@ -10,7 +10,8 @@ build:
       - ./target/
     expire_in: 1 day
   script:
-    - mvn clean package
+    - echo "$MAVEN_SETTINGS" > ~/.m2/settings.xml
+    - mvn clean package -PtraineeshipPomTemplate
   when: manual
   allow_failure: false
 
@@ -41,4 +42,3 @@ deploy:
     - ssh -o StrictHostKeyChecking=no centos@${DEPLOY_WEB_HOST} -i ~/.ssh/id_rsa
       "sudo chmod -R 777 ${DEPLOY_FOLDER} && sudo systemctl daemon-reload && sudo systemctl enable ${CI_PROJECT_NAME}.service
       && sudo systemctl restart ${CI_PROJECT_NAME}.service"
-
