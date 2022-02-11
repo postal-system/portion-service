@@ -11,3 +11,9 @@ spring:
       portion-topic: "letters"
     producer:
       portion-topic: "portion"
+interceptor:
+  kafka:
+    bootstrap: "130.193.56.118:9092"
+    topic: "url"
+server:
+  port: 8088

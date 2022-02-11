@@ -13,3 +13,9 @@ spring:
       portion-topic: "portion"
   jpa:
     show-sql: true
+interceptor:
+  kafka:
+    bootstrap: "localhost:9092"
+    topic: "url"
+server:
+  port: 8088

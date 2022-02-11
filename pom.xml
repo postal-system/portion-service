@@ -19,6 +19,13 @@
         <org.mapstruct.version>1.5.0.Beta1</org.mapstruct.version>
     </properties>
     <dependencies>
+        <!--        interceptor-starter-->
+        <dependency>
+            <groupId>io.codero</groupId>
+            <artifactId>interceptor-starter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
