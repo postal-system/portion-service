@@ -1,4 +1,8 @@
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/portions
+    username: postgres
+    password: mcpmwC8gGwVKr4Q9xCKZEzEgS
   kafka:
     bootstrap-servers: localhost:9092
     groupId: "shipment"
@@ -7,9 +11,5 @@ spring:
       portion-topic: "letters"
     producer:
       portion-topic: "portion"
-  datasource:
-    url: jdbc:postgresql://localhost:5434/portions
-    username: postgres
-    password: mcpmwC8gGwVKr4Q9xCKZEzEgS
   jpa:
     show-sql: true
