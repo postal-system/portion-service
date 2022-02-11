@@ -7,12 +7,14 @@ import io.codero.portionservice.service.PortionProducerService
 import io.codero.portionservice.service.PortionService
 import org.springframework.stereotype.Component
 import java.util.*
+import javax.transaction.Transactional
 
 @Component
 class PortionFacade(
     private val portionService: PortionService,
     private val portionProducerService: PortionProducerService,
 ) {
+    @Transactional
     fun add(dto: CreatePortionDto): UUID {
         val uuid: UUID = UUID.randomUUID()
         val portion = Portion(uuid, dto.letterIds, dto.localDateTime)

@@ -1,6 +1,6 @@
 spring:
   kafka:
-    bootstrap-servers: 130.193.56.118:9092
+    bootstrap-servers: localhost:9092
     groupId: "shipment"
     consumer:
       auto-offset-reset: earliest
@@ -8,6 +8,8 @@ spring:
     producer:
       portion-topic: "portion"
   datasource:
-    url: jdbc:postgresql://130.193.56.118:5432/pejt_portions
+    url: jdbc:postgresql://localhost:5434/portions
     username: postgres
     password: mcpmwC8gGwVKr4Q9xCKZEzEgS
+  jpa:
+    show-sql: true
