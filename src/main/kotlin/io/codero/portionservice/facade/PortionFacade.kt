@@ -6,7 +6,7 @@ import io.codero.portionservice.entity.Portion
 import io.codero.portionservice.service.PortionProducerService
 import io.codero.portionservice.service.PortionService
 import org.springframework.stereotype.Component
-import java.util.*
+import java.util.UUID
 import javax.transaction.Transactional
 
 @Component

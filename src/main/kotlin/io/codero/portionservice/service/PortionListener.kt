@@ -2,17 +2,16 @@ package io.codero.portionservice.service
 
 import io.codero.portionservice.dto.CreatePortionDto
 import io.codero.portionservice.facade.PortionFacade
-import org.slf4j.LoggerFactory
+import io.codero.portionservice.util.PortionUtil.getLogger
 import org.springframework.kafka.annotation.KafkaListener
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
-class PortionListenerService(private val portionFacade: PortionFacade) {
-    private val log = LoggerFactory.getLogger(javaClass)
+@Component
+class PortionListener(private val portionFacade: PortionFacade) {
 
     @KafkaListener(topics = ["\${spring.kafka.consumer.portion-topic}"])
     fun getPortion(dto: CreatePortionDto) {
-        log.info("#### -> {}", dto)
+        getLogger().info("#### -> {}", dto)
         portionFacade.add(dto)
     }
 }

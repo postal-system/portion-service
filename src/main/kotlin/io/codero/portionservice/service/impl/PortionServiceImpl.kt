@@ -4,7 +4,7 @@ import io.codero.portionservice.entity.Portion
 import io.codero.portionservice.repository.PortionRepository
 import io.codero.portionservice.service.PortionService
 import org.springframework.stereotype.Service
-import java.util.*
+import java.util.UUID
 
 @Service
 class PortionServiceImpl(private val portionRepository: PortionRepository) : PortionService {

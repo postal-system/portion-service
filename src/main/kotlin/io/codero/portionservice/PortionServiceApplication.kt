@@ -7,5 +7,6 @@ import org.springframework.boot.runApplication
 class PortionServiceApplication
 
 fun main(args: Array<String>) {
+    @Suppress("SpreadOperator")
     runApplication<PortionServiceApplication>(*args)
 }

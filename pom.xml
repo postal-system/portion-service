@@ -92,26 +92,9 @@
             <scope>test</scope>
         </dependency>
         <!--        checkstyle-->
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>3.1.2</version>
-            <type>maven-plugin</type>
-        </dependency>
     </dependencies>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.2</version>
-                <configuration>
-                    <configLocation>checkstyle.xml</configLocation>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
+
 
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
@@ -159,34 +142,35 @@
             </plugin>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.2</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>8.24</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <configLocation>check/checks.xml</configLocation>
-                    <encoding>UTF-8</encoding>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-                    <linkXRef>false</linkXRef>
-                </configuration>
+                <groupId>com.github.ozsie</groupId>
+                <artifactId>detekt-maven-plugin</artifactId>
+                <version>1.19.1</version>
                 <executions>
                     <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
+                        <phase>compile</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
+                        <configuration>
+                            <report>
+                                <report>xml:target/detekt/detekt.xml</report>
+                                <report>txt:target/detekt/detekt.txt</report>
+                            </report>
+                            <config>detekt/detekt-config.yml</config>
+                            <!--                          todo  local build????-->
+                            <!--                            <autoCorrect>true</autoCorrect>-->
+                        </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                <dependency>
+                    <groupId>io.gitlab.arturbosch.detekt</groupId>
+                    <artifactId>detekt-formatting</artifactId>
+                    <version>1.19.0</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
             </plugin>
-
         </plugins>
     </build>
 </project>

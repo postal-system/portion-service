@@ -41,5 +41,4 @@ class KafkaConsumerConfig {
         factory.consumerFactory = consumerFactory()
         return factory
     }
-
 }

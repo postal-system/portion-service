@@ -2,13 +2,12 @@ package io.codero.portionservice.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 data class CreatePortionDto(
     @JsonProperty("letterIds")
-    val letterIds: MutableList<UUID>,
+    var letterIds: List<UUID>,
 
     @JsonProperty("localDateTime")
-    val  localDateTime: LocalDateTime
+    var localDateTime: LocalDateTime
 )
-
