@@ -10,12 +10,12 @@ spring:
       auto-offset-reset: earliest
       portion-topic: "letters"
     producer:
-      portion-topic: "portion"
+      portion-topic: "portions"
   jpa:
     show-sql: true
 interceptor:
   kafka:
-    bootstrap: "localhost:9092"
+    bootstrap: localhost:9092
     topic: "url"
 server:
   port: 8088
