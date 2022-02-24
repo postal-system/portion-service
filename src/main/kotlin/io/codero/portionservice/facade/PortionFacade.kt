@@ -5,9 +5,9 @@ import io.codero.portionservice.dto.PortionDto
 import io.codero.portionservice.entity.Portion
 import io.codero.portionservice.service.PortionProducerService
 import io.codero.portionservice.service.PortionService
-import org.springframework.stereotype.Component
 import java.util.UUID
 import javax.transaction.Transactional
+import org.springframework.stereotype.Component
 
 @Component
 class PortionFacade(
@@ -22,5 +22,10 @@ class PortionFacade(
         val portionDto = PortionDto(portion.id, portion.letterIds, portion.localDateTime)
         portionProducerService.send(portionDto)
         return uuid
+    }
+
+    fun getById(id: UUID): PortionDto {
+        val portion = portionService.getById(id)
+        return PortionDto(portion.id, portion.letterIds, portion.localDateTime)
     }
 }

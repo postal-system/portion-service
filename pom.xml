@@ -91,9 +91,26 @@
             <version>1.16.3</version>
             <scope>test</scope>
         </dependency>
-        <!--        checkstyle-->
+        <!--        testcontainers-->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.16.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>1.16.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>1.16.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
 
 
     <build>
@@ -163,13 +180,13 @@
                     </execution>
                 </executions>
                 <dependencies>
-                <dependency>
-                    <groupId>io.gitlab.arturbosch.detekt</groupId>
-                    <artifactId>detekt-formatting</artifactId>
-                    <version>1.19.0</version>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
+                    <dependency>
+                        <groupId>io.gitlab.arturbosch.detekt</groupId>
+                        <artifactId>detekt-formatting</artifactId>
+                        <version>1.19.0</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

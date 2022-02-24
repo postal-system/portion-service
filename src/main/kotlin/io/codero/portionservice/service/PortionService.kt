@@ -5,4 +5,5 @@ import java.util.UUID
 
 interface PortionService {
     fun add(portion: Portion): UUID
+    fun getById(id: UUID): Portion
 }
