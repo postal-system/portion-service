@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/portions")
+@RequestMapping("/api/portions")
 class PortionController(private val facade: PortionFacade) {
     @GetMapping("/{id}")
     fun getById(@PathVariable("id") id: UUID): ResponseEntity<PortionDto>? {

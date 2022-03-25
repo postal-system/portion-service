@@ -1,68 +1,76 @@
 package io.codero.portionservice;
 
+import ch.qos.logback.core.spi.LifeCycle;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.codero.portionservice.config.KafkaConsumerConfigTest;
+import io.codero.portionservice.config.KafkaProducerConfigTest;
 import io.codero.portionservice.dto.CreatePortionDto;
 import io.codero.portionservice.dto.PortionDto;
 import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.common.serialization.StringSerializer;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.EnableKafka;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
-import org.springframework.kafka.support.serializer.JsonSerializer;
-import org.springframework.kafka.test.EmbeddedKafkaBroker;
-import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Import;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 import static java.util.Collections.singletonList;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@EnableKafka
-@DirtiesContext
-@EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092"})
-public class IntegrationPortionTest extends AbstractControllerTest {
+
+@ActiveProfiles("test")
+@Import({KafkaConsumerConfigTest.class, KafkaProducerConfigTest.class})
+@TestPropertySource(properties = "spring.autoconfigure.exclude=io.codero.interceptor.context.WebContextAutoConfiguration")
+public class IntegrationPortionTest extends TestContainerFactory {
+
+    @Value("${spring.kafka.producer-in.topic}")
+    private String topicIn;
+
+    @Value("${spring.kafka.consumer-out.topic}")
+    private String topicOut;
+
+    @Autowired
+    Producer<String, CreatePortionDto> producer;
+
+    @Autowired
+    Consumer<String, PortionDto> consumer;
+
     @Autowired
     private MockMvc mvc;
+
     @Autowired
     private ObjectMapper objectMapper;
 
     private final List<UUID> lettersIds = List.of(UUID.randomUUID(), UUID.randomUUID());
-    private final LocalDateTime timeStamp = LocalDateTime.of(2010, 10, 10, 10, 10, 10);
-
-    @Autowired
-    EmbeddedKafkaBroker embeddedKafkaBroker;
+    private final LocalDateTime timeStamp
+            = LocalDateTime.of(2010, 10, 10, 10, 10, 10);
 
     @Test
-    public void shouldReturnPortionDtoFromRestIfWriteCreatePortionDtoToKafka() throws Exception {
-        Consumer<String, PortionDto> consumer = configureConsumer();
-        consumer.subscribe(singletonList("portions"));
-        Producer<String, CreatePortionDto> producer = configureProducer();
-        producer.send(new ProducerRecord<>("letters", new CreatePortionDto(lettersIds, timeStamp)));
+    public void shouldReturnPortionDtoFromRestControllerIfReadCreatePortionDtoFromKafka() throws Exception {
+        consumer.subscribe(singletonList(topicOut));
+        producer.send(new ProducerRecord<>(topicIn, new CreatePortionDto(lettersIds, timeStamp)));
 
-        ConsumerRecord<String, PortionDto> singleRecord = KafkaTestUtils.getSingleRecord(consumer, "portions");
-
-        assertThat(singleRecord).isNotNull();
+        ConsumerRecord<String, PortionDto> singleRecord = KafkaTestUtils.getSingleRecord(consumer, topicOut);
 
         UUID id = singleRecord.value().getId();
 
-        MvcResult result = mvc.perform(get("/portions/" + id))
+        String URL = "/api/portions/";
+        MvcResult result = mvc.perform(get(URL + id))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -71,31 +79,7 @@ public class IntegrationPortionTest extends AbstractControllerTest {
         assertEquals(lettersIds, portionDto.getLetterIds());
         assertEquals(timeStamp, portionDto.getLocalDateTime());
 
-        consumer.close();
         producer.close();
-    }
-
-    private Consumer<String, PortionDto> configureConsumer() {
-        Map<String, Object> props = KafkaTestUtils.consumerProps("shipment", "true", embeddedKafkaBroker);
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "shipment");
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        Consumer<String, PortionDto> consumer = new DefaultKafkaConsumerFactory<>(
-                props,
-                new StringDeserializer(),
-                new JsonDeserializer<>(PortionDto.class)).createConsumer();
-        consumer.subscribe(Collections.singleton("portions"));
-        return consumer;
-    }
-
-    private Producer<String, CreatePortionDto> configureProducer() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
-        return new DefaultKafkaProducerFactory<String, CreatePortionDto>(props).createProducer();
+        consumer.close();
     }
 }

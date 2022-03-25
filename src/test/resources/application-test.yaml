@@ -1,0 +1,16 @@
+spring:
+  kafka:
+    producer:
+      topic: "portion-test"
+    consumer:
+      topic: "letter-test"
+      group-id: "group-test"
+    producer-in:
+      topic: "letter-test"
+    consumer-out:
+      topic: "portion-test"
+      group-id: "group-test"
+#interceptor:
+#  kafka:
+#    bootstrap: localhost:9092
+#    topic: "url-test"

@@ -1,0 +1,19 @@
+spring:
+  kafka:
+    bootstrap-servers: 130.193.56.118:9092
+    consumer:
+      group-id: "shipment"
+      auto-offset-reset: earliest
+      topic: "letters"
+    producer:
+      topic: "portions"
+  datasource:
+    url: jdbc:postgresql://130.193.56.118:5432/pejt_portions
+    username: postgres
+    password: mcpmwC8gGwVKr4Q9xCKZEzEgS
+interceptor:
+  kafka:
+    bootstrap: 130.193.56.118:9092
+    topic: "url"
+server:
+  port: 8088

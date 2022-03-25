@@ -5,7 +5,7 @@ services:
     image: 'postgres:latest'
     container_name: portions_db
     ports:
-      - '5434:5432'
+      - '5440:5432'
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=mcpmwC8gGwVKr4Q9xCKZEzEgS

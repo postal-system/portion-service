@@ -18,7 +18,7 @@ class KafkaConsumerConfig {
     @Value("\${spring.kafka.bootstrap-servers}")
     private val bootstrapServers: String? = null
 
-    @Value("\${spring.kafka.groupId}")
+    @Value("\${spring.kafka.consumer.group-id}")
     private val groupId: String? = null
 
     @Bean
@@ -26,6 +26,7 @@ class KafkaConsumerConfig {
         val props: MutableMap<String, Any?> = HashMap()
         props[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = bootstrapServers
         props[ConsumerConfig.GROUP_ID_CONFIG] = groupId
+        props[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "earliest"
         props[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = JsonDeserializer::class.java
         return DefaultKafkaConsumerFactory(
