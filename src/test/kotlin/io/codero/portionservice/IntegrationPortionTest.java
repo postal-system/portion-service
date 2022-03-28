@@ -56,14 +56,12 @@ public class IntegrationPortionTest extends TestContainerFactory {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private final List<UUID> lettersIds = List.of(UUID.randomUUID(), UUID.randomUUID());
-    private final LocalDateTime timeStamp
-            = LocalDateTime.of(2010, 10, 10, 10, 10, 10);
-
     @Test
     public void shouldReturnPortionDtoFromRestControllerIfReadCreatePortionDtoFromKafka() throws Exception {
+        CreatePortionDto dto = getDto();
+
         consumer.subscribe(singletonList(topicOut));
-        producer.send(new ProducerRecord<>(topicIn, new CreatePortionDto(lettersIds, timeStamp)));
+        producer.send(new ProducerRecord<>(topicIn, dto));
 
         ConsumerRecord<String, PortionDto> singleRecord = KafkaTestUtils.getSingleRecord(consumer, topicOut);
 
@@ -76,10 +74,17 @@ public class IntegrationPortionTest extends TestContainerFactory {
 
         PortionDto portionDto = objectMapper.readValue(result.getResponse().getContentAsString(), PortionDto.class);
 
-        assertEquals(lettersIds, portionDto.getLetterIds());
-        assertEquals(timeStamp, portionDto.getLocalDateTime());
+        assertEquals(dto.getLetterIds(), portionDto.getLetterIds());
+        assertEquals(dto.getLocalDateTime(), portionDto.getLocalDateTime());
 
         producer.close();
         consumer.close();
+    }
+
+    private CreatePortionDto getDto() {
+        List<UUID> lettersIds = List.of(UUID.randomUUID(), UUID.randomUUID());
+        LocalDateTime timeStamp
+                = LocalDateTime.of(2010, 10, 10, 10, 10, 10);
+        return new CreatePortionDto(lettersIds, timeStamp);
     }
 }
