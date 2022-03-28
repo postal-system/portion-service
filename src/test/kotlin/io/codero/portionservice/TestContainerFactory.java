@@ -22,7 +22,6 @@ import org.testcontainers.utility.DockerImageName;
 @AutoConfigureMockMvc
 public abstract class TestContainerFactory {
     @Container
-//    private static final PostgreSQLContainer container = new PostgreSQLContainer("postgres:14.1")
     private static final PostgreSQLContainer container = new PostgreSQLContainer("postgres:latest")
             .withDatabaseName("test_container")
             .withUsername("test")
@@ -50,6 +49,7 @@ public abstract class TestContainerFactory {
         registry.add("spring.datasource.password", container::getPassword);
 
         registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers);
+        registry.add("interceptor.kafka.bootstrap", kafka::getBootstrapServers);
 
     }
 }
