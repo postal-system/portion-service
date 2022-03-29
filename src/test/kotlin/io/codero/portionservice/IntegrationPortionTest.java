@@ -81,20 +81,6 @@ public class IntegrationPortionTest extends TestContainerFactory {
 
         producer.close();
         consumer.close();
-    }
-
-    @Test
-    void shouldSendToKafkaMessageWithUrlIfTouchControllerFromStarterInterceptor() throws Exception {
-        CreatePortionDto dto = getDto();
-        consumer.subscribe(singletonList(topicOut));
-        producer.send(new ProducerRecord<>(topicIn, dto));
-        ConsumerRecord<String, PortionDto> singleRecord = KafkaTestUtils.getSingleRecord(consumer, topicOut);
-        UUID id = singleRecord.value().getId();
-        MvcResult result = mvc.perform(get(URL + id))
-                .andExpect(status().isOk())
-                .andReturn();
-        producer.close();
-        consumer.close();
 
         consumerInterceptor.subscribe(singletonList(topicUrl));
         ConsumerRecord<String, UrlDto> UrlRecord = KafkaTestUtils.getSingleRecord(consumerInterceptor, topicUrl);
@@ -103,8 +89,6 @@ public class IntegrationPortionTest extends TestContainerFactory {
         String actualUrl = UrlRecord.value().getUrl();
 
         Assertions.assertEquals(expectedUrl, actualUrl);
-
-        consumerInterceptor.close();
     }
 
     private CreatePortionDto getDto() {

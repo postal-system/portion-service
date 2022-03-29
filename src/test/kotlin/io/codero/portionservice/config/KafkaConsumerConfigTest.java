@@ -20,9 +20,6 @@ public class KafkaConsumerConfigTest {
      * -in, -out - objects mock to simulate outside systems
      */
 
-    @Value("${spring.kafka.consumer-out.topic}")
-    private String topicOut;
-
     @Value("${spring.kafka.consumer-out.group-id}")
     private String groupId;
 

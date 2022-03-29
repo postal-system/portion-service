@@ -19,7 +19,7 @@
         <org.mapstruct.version>1.5.0.Beta1</org.mapstruct.version>
     </properties>
     <dependencies>
-        <!--        interceptor-starter-->
+        <!--        custom-starter-->
         <dependency>
             <groupId>io.codero</groupId>
             <artifactId>interceptor-starter</artifactId>
