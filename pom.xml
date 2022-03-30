@@ -17,6 +17,11 @@
         <java.version>11</java.version>
         <kotlin.version>1.6.10</kotlin.version>
         <org.mapstruct.version>1.5.0.Beta1</org.mapstruct.version>
+        <vladmihalcea.hibernate-types-52.version>2.14.0</vladmihalcea.hibernate-types-52.version>
+        <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
+        <testcontainers.version>1.16.3</testcontainers.version>
+        <detekt-formatting.version>1.19.0</detekt-formatting.version>
+        <detekt-maven-plugin.version>1.19.1</detekt-maven-plugin.version>
     </properties>
     <dependencies>
         <!--        custom-starter-->
@@ -52,7 +57,7 @@
         <dependency>
             <groupId>com.vladmihalcea</groupId>
             <artifactId>hibernate-types-52</artifactId>
-            <version>2.14.0</version>
+            <version>${vladmihalcea.hibernate-types-52.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -73,7 +78,7 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
+            <version>${springfox-boot-starter.version}</version>
         </dependency>
         <!--        kafka-->
         <dependency>
@@ -85,29 +90,29 @@
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>kafka</artifactId>
-            <version>1.16.3</version>
-            <scope>test</scope>
-        </dependency>
         <!--        testcontainers-->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>1.16.3</version>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>1.16.3</version>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
-            <version>1.16.3</version>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -160,7 +165,7 @@
             <plugin>
                 <groupId>com.github.ozsie</groupId>
                 <artifactId>detekt-maven-plugin</artifactId>
-                <version>1.19.1</version>
+                <version>${detekt-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -182,7 +187,7 @@
                     <dependency>
                         <groupId>io.gitlab.arturbosch.detekt</groupId>
                         <artifactId>detekt-formatting</artifactId>
-                        <version>1.19.0</version>
+                        <version>${detekt-formatting.version}</version>
                         <scope>runtime</scope>
                     </dependency>
                 </dependencies>
