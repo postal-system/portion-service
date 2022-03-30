@@ -1,0 +1,21 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: "shipment"
+      auto-offset-reset: earliest
+      topic: "letters"
+    producer:
+      topic: "portions"
+  datasource:
+    url: jdbc:postgresql://localhost:5440/portions
+    username: postgres
+    password: mcpmwC8gGwVKr4Q9xCKZEzEgS
+  jpa:
+    show-sql: true
+interceptor:
+  kafka:
+    bootstrap: localhost:9092
+    topic: "url"
+server:
+  port: 8088
