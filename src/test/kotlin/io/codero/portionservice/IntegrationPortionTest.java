@@ -8,7 +8,6 @@ import io.codero.portionservice.dto.CreatePortionDto;
 import io.codero.portionservice.dto.PortionDto;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.jupiter.api.Assertions;
@@ -21,7 +20,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -77,7 +75,7 @@ public class IntegrationPortionTest extends TestContainerFactory {
         PortionDto portionDto = objectMapper.readValue(result.getResponse().getContentAsString(), PortionDto.class);
 
         assertEquals(dto.getLetterIds(), portionDto.getLetterIds());
-        assertEquals(dto.getLocalDateTime(), portionDto.getLocalDateTime());
+        assertEquals(dto.getTimestamp(), portionDto.getTimestamp());
 
         producer.close();
         consumer.close();

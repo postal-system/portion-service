@@ -7,7 +7,6 @@ data class CreatePortionDto(
     @JsonProperty("letterIds")
     var letterIds: List<UUID>,
 
-//    @JsonProperty("timestamp")
-    @JsonProperty("localDateTime")
-    var localDateTime: LocalDateTime
+    @JsonProperty("timestamp")
+    var timestamp: LocalDateTime
 )

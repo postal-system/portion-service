@@ -9,6 +9,6 @@ data class PortionDto(
     val id: UUID,
     @JsonProperty("letterIds")
     val letterIds: List<UUID>,
-    @JsonProperty("localDateTime")
-    val localDateTime: LocalDateTime
+    @JsonProperty("timestamp")
+    val timestamp: LocalDateTime
 )

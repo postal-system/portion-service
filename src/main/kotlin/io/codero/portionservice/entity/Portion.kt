@@ -21,5 +21,5 @@ data class Portion(
     val letterIds: List<UUID>,
 
     @Column(name = "sending_date", nullable = false)
-    val localDateTime: LocalDateTime
+    val timestamp: LocalDateTime
 )
