@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  portions_db:
+    image: 'postgres:latest'
+    container_name: portions_db
+    ports:
+      - '5440:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mcpmwC8gGwVKr4Q9xCKZEzEgS
+      - POSTGRES_DB=portions
