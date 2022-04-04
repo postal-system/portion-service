@@ -8,12 +8,12 @@ spring:
     producer:
       topic: "portions"
   datasource:
-    url: jdbc:postgresql://130.193.56.118:5432/pejt_portions
+    url: jdbc:postgresql://192.198.1.1:5432/pejt_portions
     username: postgres
-    password: mcpmwC8gGwVKr4Q9xCKZEzEgS
+    password: 1234
 interceptor:
   kafka:
-    bootstrap: 130.193.56.118:9092
+    bootstrap: 192.168.1.1:9092
     topic: "url"
 server:
   port: 8088
