@@ -12,5 +12,4 @@ spring:
       group-id: "group-test"
 interceptor:
   kafka:
-#    bootstrap: localhost:9099
     topic: "url"

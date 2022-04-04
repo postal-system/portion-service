@@ -10,7 +10,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5440/portions
     username: postgres
-    password: mcpmwC8gGwVKr4Q9xCKZEzEgS
+    password: 1234
   jpa:
     show-sql: true
 interceptor:
